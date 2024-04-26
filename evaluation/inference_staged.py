@@ -342,6 +342,10 @@ if __name__ == "__main__":
         help="Override the default dtype. If not set, it will use float16 on GPU.",
     )
 
+    parser.add_argument(
+        "--cache-dir",
+        type=str,
+    )
     
     args = parser.parse_args()
 
@@ -360,21 +364,26 @@ if __name__ == "__main__":
         args.model_path,
         torch_dtype=str_to_torch_dtype(args.dtype),
         low_cpu_mem_usage=True,
-        device_map="auto"
+        device_map="auto",
+        cache_dir = args.cache_dir,
     )
+    
+    
 
     assistant_model = AutoModelForCausalLM.from_pretrained(
         args.assistant_model_path,
         torch_dtype=str_to_torch_dtype(args.dtype),
         low_cpu_mem_usage=True,
-        device_map="auto"
+        device_map="auto",
+        cache_dir = args.cache_dir,
     )
     
     secondary_assistant_model = AutoModelForCausalLM.from_pretrained(
         args.secondary_assistant_model_path,
         torch_dtype=str_to_torch_dtype(args.dtype),
         low_cpu_mem_usage=True,
-        device_map="auto"
+        device_map="auto",
+        cache_dir = args.cache_dir,
     )
 
     tokenizer = AutoTokenizer.from_pretrained(args.model_path)
